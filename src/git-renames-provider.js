@@ -1,8 +1,10 @@
-const git = require("isomorphic-git");
-const fs = require("fs");
+const git = require("simple-git");
+const path = require("path");
 module.exports = {
-  async getRenames(gitDir) {
-    const status = await git.statusMatrix({ fs, dir: gitDir });
-    console.info(status);
+  getRenames(gitDir) {
+    const configuredGit = git({ baseDir: gitDir });
+    return configuredGit
+      .status()
+      .then((status) => status.renamed.map((r) => ({ from: path.join(gitDir, r.from), to: path.join(gitDir, r.to) })));
   },
 };
