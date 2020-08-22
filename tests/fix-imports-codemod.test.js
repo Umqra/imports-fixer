@@ -112,4 +112,15 @@ describe("fix-imports-codemod", function () {
         \{/* comment */\}</div>;
       }`);
   });
+  test("should preserve import quotes style", () => {
+    pathResolver.addPlugin(pathResolver.plugins.fs());
+    moduleRenamer.addRename("/home/user/src/lib/fn.js", "/home/user/src/lib/cast.js");
+    const fixed = fixer.renameImports(
+      "/home/user/src/lib/test.js",
+      `import { f } from './fn'`,
+      pathResolver,
+      moduleRenamer
+    );
+    expect(fixed).toBe(`import { f } from './cast'`);
+  });
 });
