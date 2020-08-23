@@ -7,7 +7,7 @@ const moduleRenamer = require("./module-renamer");
 const gitRenamesProvider = require("./git-renames-provider");
 
 module.exports = {
-  async run(pathResolverPlugins, renameSource, renameRegistryCallback, filesToFixCollection) {
+  async run(pathResolverPlugins, renameSource, renameRegistryCallback, filesToFixCollection, fixAction) {
     for (const plugin of pathResolverPlugins) {
       pathResolver.addPlugin(plugin);
     }
@@ -18,9 +18,7 @@ module.exports = {
     for (const filePath of filesToFixCollection) {
       const sourceCode = fs.readFileSync(filePath, "utf-8");
       const fixedSourceCode = fixImports.renameImports(filePath, sourceCode, pathResolver, moduleRenamer);
-      console.info("BEFORE", sourceCode);
-      console.info("AFTER", fixedSourceCode);
-      // fs.writeFileSync(filePath, fixedSourceCode);
+      fixAction(filePath, sourceCode, fixedSourceCode);
     }
   },
   pathResolverPlugins: {
