@@ -123,4 +123,61 @@ describe("fix-imports-codemod", function () {
     );
     expect(fixed).toBe(`import { f } from './cast'`);
   });
+  test("should handle alias imports", () => {
+    pathResolver.addPlugin(pathResolver.plugins.fs());
+    moduleRenamer.addRename("/home/user/src/lib/fn.js", "/home/user/src/lib/cast.js").addSubjectRename("f", "g");
+    const fixed = fixer.renameImports(
+      "/home/user/src/lib/test.js",
+      `import { f as test } from "./fn"`,
+      pathResolver,
+      moduleRenamer
+    );
+    expect(fixed).toBe(`import { g as test } from "./cast"`);
+  });
+  test("should rename import usages", () => {
+    pathResolver.addPlugin(pathResolver.plugins.fs());
+    moduleRenamer.addRename("/home/user/src/lib/fn.js", "/home/user/src/lib/cast.js").addSubjectRename("f", "g");
+    const fixed = fixer.renameImports(
+      "/home/user/src/lib/test.js",
+      `
+        import { f } from "./fn"
+        console.info(f());
+        `,
+      pathResolver,
+      moduleRenamer
+    );
+    expect(fixed).toBe(`
+        import { g } from "./cast"
+        console.info(g());
+        `);
+  });
+  test("should rename imported type usages", () => {
+    pathResolver.addPlugin(pathResolver.plugins.fs());
+    moduleRenamer
+      .addRename("/home/user/src/lib/types.js", "/home/user/src/lib/typings.js")
+      .addSubjectRename("IType", "IBase");
+    const fixed = fixer.renameImports(
+      "/home/user/src/lib/test.js",
+      `
+        import { IType } from "./types"
+        interface Value extends IType {
+            value: string;
+        }
+        function App(props: IType) {
+            // todo
+        }
+        `,
+      pathResolver,
+      moduleRenamer
+    );
+    expect(fixed).toBe(`
+        import { IBase } from "./typings"
+        interface Value extends IBase {
+            value: string;
+        }
+        function App(props: IBase) {
+            // todo
+        }
+        `);
+  });
 });
