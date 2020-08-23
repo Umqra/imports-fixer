@@ -1,4 +1,5 @@
 const recast = require("recast");
+const fsPath = require("./fs-path");
 
 const parser = require("@babel/parser");
 
