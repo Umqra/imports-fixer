@@ -1,6 +1,8 @@
 {
   "name": "imports-fixer",
   "version": "1.0.1",
+  "keywords": "codemod, imports, ast",
+  "description": "simple codemod to fix your imports",
   "main": "index.js",
   "author": "Sivukhin Nikita",
   "license": "MIT",
