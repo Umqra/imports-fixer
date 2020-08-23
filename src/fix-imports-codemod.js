@@ -1,11 +1,60 @@
 const recast = require("recast");
-// todo (sivukhin, 22.08.2020): Fix!
-const builder = recast.types.builders;
+
+const parser = require("@babel/parser");
+
+function getOption(options, key, defaultValue) {
+  if (options && options.hasOwnProperty(key)) {
+    return options[key];
+  }
+  return defaultValue;
+}
+
+function getBabelOptions(options) {
+  return {
+    sourceType: getOption(options, "sourceType", "module"),
+    strictMode: getOption(options, "strictMode", false),
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    tokens: true,
+    plugins: [
+      "asyncGenerators",
+      "bigInt",
+      "classPrivateMethods",
+      "classPrivateProperties",
+      "classProperties",
+      "decorators-legacy",
+      "doExpressions",
+      "dynamicImport",
+      "exportDefaultFrom",
+      "exportExtensions",
+      "exportNamespaceFrom",
+      "functionBind",
+      "functionSent",
+      "importMeta",
+      "nullishCoalescingOperator",
+      "numericSeparator",
+      "objectRestSpread",
+      "optionalCatchBinding",
+      "optionalChaining",
+      ["pipelineOperator", { proposal: "minimal" }],
+      "throwExpressions",
+      "jsx",
+      "typescript",
+    ],
+  };
+}
+
+function parse(source, options) {
+  return parser.parse(source, getBabelOptions(options));
+}
 
 module.exports = {
   renameImports(filePath, sourceCode, pathResolver, moduleRenamer) {
     const ast = recast.parse(sourceCode, {
-      parser: require("recast/parsers/babylon"),
+      parser: {
+        parse: parse,
+      },
     });
     const renamedIdentifiers = new Map();
     recast.visit(ast, {

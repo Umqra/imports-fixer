@@ -80,9 +80,13 @@ importsFixer
     (path, before, after) => {
       if (program.dry) {
         process.stderr.write(chalk.bold.white(path + ":\n"));
-        for (const delta of diff.diffChars(before, after)) {
-          const color = delta.added ? chalk.blue : delta.removed ? chalk.bold.red : chalk.gray;
-          process.stderr.write(color(delta.value));
+        for (const delta of diff.diffLines(before, after)) {
+          if (delta.added) {
+            process.stderr.write(chalk.green("+ " + delta.value));
+          }
+          if (delta.removed) {
+            process.stderr.write(chalk.red("- " + delta.value));
+          }
         }
         process.stderr.write("\n");
       } else if (before !== after) {
@@ -100,4 +104,5 @@ importsFixer
         process.stderr.write(chalk.bold.gray(`  ${file}\n`));
       }
     }
-  });
+  })
+  .catch((err) => process.stderr.write(chalk.bold.red(err.stack + "\n")));
