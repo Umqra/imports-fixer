@@ -24,4 +24,7 @@ module.exports = {
     }
     return result;
   },
+  slash(path) {
+    return path.replace(/\\/g, "/");
+  },
 };

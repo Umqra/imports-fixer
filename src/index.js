@@ -24,8 +24,7 @@ module.exports = {
   pathResolverPlugins: {
     fs: pathResolver.plugins.fs(),
     typescript: (tsconfigPath) => {
-      const tsconfigPathAbs = path.abs(tsconfigPath);
-      return pathResolver.plugins.typescript(tsconfigPathAbs, JSON.parse(fs.readFileSync(tsconfigPathAbs, "utf-8")));
+      return pathResolver.plugins.typescript(tsconfigPath, JSON.parse(fs.readFileSync(tsconfigPath, "utf-8")));
     },
   },
   renameSources: {

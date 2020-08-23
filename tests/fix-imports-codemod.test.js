@@ -10,8 +10,10 @@ describe("fix-imports-codemod", function () {
   test("should change paths for default exports", () => {
     pathResolver.addPlugin(
       pathResolver.plugins.typescript("/home/user/tsconfig.js", {
-        baseUrl: ".",
-        paths: { "root/*": ["src/lib/*"] },
+        compilerOptions: {
+          baseUrl: ".",
+          paths: { "root/*": ["src/lib/*"] },
+        },
       })
     );
     pathResolver.addPlugin(pathResolver.plugins.fs());
@@ -27,8 +29,10 @@ describe("fix-imports-codemod", function () {
   test("should rename subject of imports", () => {
     pathResolver.addPlugin(
       pathResolver.plugins.typescript("/home/user/tsconfig.js", {
-        baseUrl: ".",
-        paths: { "root/*": ["src/lib/*"] },
+        compilerOptions: {
+          baseUrl: ".",
+          paths: { "root/*": ["src/lib/*"] },
+        },
       })
     );
     pathResolver.addPlugin(pathResolver.plugins.fs());
@@ -44,8 +48,10 @@ describe("fix-imports-codemod", function () {
   test("should preserve spacing", () => {
     pathResolver.addPlugin(
       pathResolver.plugins.typescript("/home/user/tsconfig.js", {
-        baseUrl: ".",
-        paths: { "root/*": ["src/lib/*"] },
+        compilerOptions: {
+          baseUrl: ".",
+          paths: { "root/*": ["src/lib/*"] },
+        },
       })
     );
     pathResolver.addPlugin(pathResolver.plugins.fs());
@@ -61,8 +67,10 @@ describe("fix-imports-codemod", function () {
   test("should preserve order with multiple imports", () => {
     pathResolver.addPlugin(
       pathResolver.plugins.typescript("/home/user/tsconfig.js", {
-        baseUrl: ".",
-        paths: { "root/*": ["src/lib/*"] },
+        compilerOptions: {
+          baseUrl: ".",
+          paths: { "root/*": ["src/lib/*"] },
+        },
       })
     );
     pathResolver.addPlugin(pathResolver.plugins.fs());
@@ -81,8 +89,10 @@ describe("fix-imports-codemod", function () {
   test("should silently ignore JSX syntax / Typescript annotations", () => {
     pathResolver.addPlugin(
       pathResolver.plugins.typescript("/home/user/tsconfig.js", {
-        baseUrl: ".",
-        paths: { "root/*": ["src/lib/*"] },
+        compilerOptions: {
+          baseUrl: ".",
+          paths: { "root/*": ["src/lib/*"] },
+        },
       })
     );
     pathResolver.addPlugin(pathResolver.plugins.fs());

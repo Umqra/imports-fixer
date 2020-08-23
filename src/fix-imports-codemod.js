@@ -68,7 +68,7 @@ module.exports = {
         const { location, rewrite } = pathResolver.resolve(filePath, path.node.source.value);
         const renameImportConfig = moduleRenamer.findRename(location);
         if (renameImportConfig != null) {
-          path.node.source.value = rewrite(renameImportConfig.newLocation);
+          path.node.source.value = fsPath.slash(rewrite(renameImportConfig.newLocation));
           for (const specifier of path.node.specifiers) {
             if (specifier.type === "ImportSpecifier") {
               const importedItem = specifier.imported.name;

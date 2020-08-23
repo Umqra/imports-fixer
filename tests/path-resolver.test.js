@@ -4,7 +4,9 @@ describe("path-resolver", () => {
     pathResolver.clear();
   });
   test("should combine plugins", () => {
-    pathResolver.addPlugin(pathResolver.plugins.typescript("/home/src/tsconfig.js", { baseUrl: "." }));
+    pathResolver.addPlugin(
+      pathResolver.plugins.typescript("/home/src/tsconfig.js", { compilerOptions: { baseUrl: "." } })
+    );
     pathResolver.addPlugin(pathResolver.plugins.fs());
     const resolvedRelative = pathResolver.resolve("/home/src/lib/test.js", "../api/fetch");
     expect(resolvedRelative.location).toBe("/home/src/api/fetch");
@@ -44,21 +46,23 @@ describe("path-resolver", () => {
   });
   describe("typescript", () => {
     test("should recognize baseUrl", () => {
-      const ts = pathResolver.plugins.typescript("/home/src/tsconfig.js", { baseUrl: "." });
+      const ts = pathResolver.plugins.typescript("/home/src/tsconfig.js", { compilerOptions: { baseUrl: "." } });
       const resolved = ts("/home/src/lib/test.js", "api/fetch");
       expect(resolved.location).toBe("/home/src/api/fetch");
       expect(resolved.rewrite("/home/src/ext/fetch.js")).toBe("ext/fetch");
     });
     test("should not recognize relative paths", () => {
-      const ts = pathResolver.plugins.typescript("/home/src/tsconfig.js", { baseUrl: "." });
+      const ts = pathResolver.plugins.typescript("/home/src/tsconfig.js", { compilerOptions: { baseUrl: "." } });
       const resolved = ts("/home/src/lib/test.js", "../api/fetch");
       expect(resolved).toBeNull();
     });
     test("should ignore multiple path aliases", () => {
       const ts = pathResolver.plugins.typescript("/home/src/tsconfig.js", {
-        baseUrl: ".",
-        paths: {
-          "root/*": ["src/lib/*", "src/api/*"],
+        compilerOptions: {
+          baseUrl: ".",
+          paths: {
+            "root/*": ["src/lib/*", "src/api/*"],
+          },
         },
       });
       const resolved = ts("/home/src/lib/test.js", "root/fetch");
@@ -66,9 +70,11 @@ describe("path-resolver", () => {
     });
     test("should recognize path aliases", () => {
       const ts = pathResolver.plugins.typescript("/home/tsconfig.js", {
-        baseUrl: ".",
-        paths: {
-          "root/*": ["src/api/*"],
+        compilerOptions: {
+          baseUrl: ".",
+          paths: {
+            "root/*": ["src/api/*"],
+          },
         },
       });
       const resolved = ts("/home/src/lib/test.js", "root/fetch");

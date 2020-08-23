@@ -35,8 +35,9 @@ module.exports = {
       };
     },
     typescript: function (tsconfigPath, tsconfig) {
-      const baseUrl = path.join(path.dirname(tsconfigPath), tsconfig.baseUrl);
-      const paths = tsconfig.paths;
+      const compilerOptions = tsconfig.compilerOptions;
+      const baseUrl = path.join(path.dirname(tsconfigPath), compilerOptions.baseUrl);
+      const paths = compilerOptions.paths;
       return function (filePath, importPath) {
         if (importPath.startsWith(".")) {
           return null;
