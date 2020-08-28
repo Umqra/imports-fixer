@@ -1,6 +1,6 @@
 {
   "name": "imports-fixer",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "keywords": [
     "codemod",
     "imports",
@@ -8,13 +8,12 @@
   ],
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Umqra/imports-fixer"
+    "type": "git",
+    "url": "https://github.com/Umqra/imports-fixer"
   },
   "description": "simple codemod to fix your imports",
   "main": "index.js",
   "author": "Sivukhin Nikita",
-  "license": "MIT",
   "bin": {
     "imports-fixer": "bin/cli.js"
   },
