@@ -5,11 +5,11 @@ module.exports = {
     const ext = path.extname(filePath);
     return filePath.substr(0, filePath.length - ext.length);
   },
-  makeRelative(path) {
-    if (path.startsWith(".")) {
-      return path;
+  makeRelative(filePath) {
+    if (filePath.startsWith(".")) {
+      return filePath;
     }
-    return "./" + path;
+    return `.${path.sep}` + filePath;
   },
   simpleJoin(...paths) {
     let result = paths[0];

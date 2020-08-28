@@ -42,6 +42,7 @@ module.exports = {
         if (importPath.startsWith(".")) {
           return null;
         }
+        importPath = path.normalize(importPath);
         const aliases = paths == null ? [] : Object.entries(paths);
         let resolvedAliasImport = null;
         let usedAlias = null;
@@ -52,7 +53,7 @@ module.exports = {
           if (paths[aliasPathPattern].length !== 1) {
             continue;
           }
-          const aliasPath = aliasPathPattern.substr(0, aliasPathPattern.length - 1);
+          const aliasPath = path.normalize(aliasPathPattern.substr(0, aliasPathPattern.length - 1));
           const mappedPaths = paths[aliasPathPattern]
             .filter((x) => x.endsWith("*"))
             .map((x) => x.substr(0, x.length - 1));
