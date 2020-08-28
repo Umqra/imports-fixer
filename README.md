@@ -51,6 +51,6 @@ module.exports = {
 ```
 
 And then you can fix imports in your git repository with simple command:
-```
+```bash
 $> npx imports-fixer --config .rename-config.js --git-dir /home/user/project --source-dir /home/user/project/frontend
 ```
