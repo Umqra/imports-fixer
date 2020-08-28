@@ -1,5 +1,6 @@
 ## imports-fixer
 
+![npm](https://img.shields.io/npm/v/imports-fixer)
 Simple codemod to fix your imports
 
 Use this tools via NPX or simply install it as dev dependency in the project:
