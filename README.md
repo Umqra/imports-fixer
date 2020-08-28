@@ -3,7 +3,7 @@
 Simple codemod to fix your imports
 
 Use this tools via NPX or simply install it as dev dependency in the project:
-```
+```bash
 $> npm install --save-dev imports-fixer
 $> npx imports-fixer --help
 Usage: imports-fixer [options]
@@ -22,7 +22,7 @@ Options:
 
 To enable `imports-fixer` codemod you need to write simple Javascript config file, that will tell codemod the rules about imports renaming. 
 Simple configuration may look like this:
-```
+```js
 // .rename-config.js
 
 const path = require("path");
