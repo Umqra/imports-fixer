@@ -1,6 +1,5 @@
-## imports-fixer
+## [<img src="https://img.shields.io/npm/v/imports-fixer">](https://www.npmjs.com/package/imports-fixer) imports-fixer
 
-![npm](https://img.shields.io/npm/v/imports-fixer)
 Simple codemod to fix your imports
 
 Use this tools via NPX or simply install it as dev dependency in the project:
@@ -44,7 +43,7 @@ module.exports = {
         if (fromTransformed != null && toTransformed != null) {
             const rename = registry.addRename(fromTransformed, toTransformed);
             if (from !== to) {
-                rename.addSubjectRename(from, to);
+                rename.addSubjectRename(from, to); 
             }
         }
     },
