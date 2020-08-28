@@ -6,6 +6,11 @@
     "imports",
     "ast"
   ],
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Umqra/imports-fixer"
+  },
   "description": "simple codemod to fix your imports",
   "main": "index.js",
   "author": "Sivukhin Nikita",
