@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const { program } = require("commander");
+const debug = require("debug");
 const fs = require("fs");
 const chalk = require("chalk");
 const path = require("path");
@@ -13,6 +14,7 @@ program
   .option("--tsconfig <path>", "path to the tsconfig.json configuration file")
   .option("--include-content <content-regex>", "include files which content matches specified regexp")
   .option("--exclude-content <content-regex>", "exclude files which content matches specified regexp")
+  .option("-d, --debug", "enable debug log")
   .requiredOption("--git-dir <path>", "path to the git directory with the renames to track")
   .requiredOption("--source-dir <path>", "path to the directory with sources to fix")
   .requiredOption(
@@ -22,6 +24,9 @@ program
   )
   .requiredOption("--config <path>", "path to the imports-fixer configuration script");
 program.parse(process.argv);
+if (program.debug) {
+  debug.enable("*");
+}
 
 function getPath(p) {
   return path.isAbsolute(p) ? p : path.join(process.cwd(), p);

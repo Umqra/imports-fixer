@@ -1,3 +1,4 @@
+const debug = require("debug")("imports-fixer:index");
 const fs = require("fs");
 const path = require("path");
 const filesFilter = require("./files-filter");
@@ -8,17 +9,26 @@ const gitRenamesProvider = require("./git-renames-provider");
 
 module.exports = {
   async run(pathResolverPlugins, renameSource, renameRegistryCallback, filesToFixCollection, fixAction) {
+    debug("Initialize path resolver plugins");
     for (const plugin of pathResolverPlugins) {
       pathResolver.addPlugin(plugin);
     }
+    debug("Fetch renames from the Git");
     const renames = await renameSource;
+    debug(`Found ${renames.length} renames that are ready to be registered`);
     for (const { from, to } of renames) {
+      debug(`  Found rename ${from} -> ${to}`);
       renameRegistryCallback(from, to, moduleRenamer);
     }
+    debug(`Ready to fix ${filesToFixCollection.length} files`);
     for (const filePath of filesToFixCollection) {
+      debug(`  Ready to fix file ${filePath}`);
       const sourceCode = fs.readFileSync(filePath, "utf-8");
       const fixedSourceCode = fixImports.renameImports(filePath, sourceCode, pathResolver, moduleRenamer);
-      fixAction(filePath, sourceCode, fixedSourceCode);
+      if (!sourceCode === fixedSourceCode) {
+        debug(`  File ${filePath} was fixed`);
+        fixAction(filePath, sourceCode, fixedSourceCode);
+      }
     }
   },
   pathResolverPlugins: {

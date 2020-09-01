@@ -1,3 +1,4 @@
+const debug = require("debug")("imports-fixer:module-renamer");
 const fs = require("./fs-path");
 
 const renames = {};
@@ -15,6 +16,7 @@ module.exports = {
     return null;
   },
   addRename(oldPath, newPath) {
+    debug(`    Add module renames: ${oldPath} -> ${newPath}`);
     const oldPathStripped = fs.stripExtension(oldPath);
     const newPathStripped = fs.stripExtension(newPath);
     const changedSubjects = {};
@@ -27,6 +29,7 @@ module.exports = {
         return subject;
       },
       addSubjectRename(oldSubject, newSubject) {
+        debug(`      Add subject renames: ${oldSubject} -> ${newSubject}`);
         changedSubjects[oldSubject] = newSubject;
         return this;
       },
